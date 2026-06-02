@@ -18,22 +18,36 @@ pipeline {
         }
 
         stage('Install Backend Dependencies') {
-            steps {
-                echo 'Installing backend dependencies...'
-                dir('backend') {
-                    bat 'npm install'
+        steps {
+            echo 'Checking backend dependencies...'
+            dir('backend') {
+                script {
+                    if (fileExists('node_modules')) {
+                        echo 'Backend dependencies already installed. Skipping npm install.'
+                    } else {
+                        echo 'Installing backend dependencies...'
+                        bat 'npm install'
+                    }
                 }
             }
         }
+    }
 
-        stage('Install Frontend Dependencies') {
-            steps {
-                echo 'Installing frontend dependencies...'
-                dir('frontend') {
-                    bat 'npm install'
+    stage('Install Frontend Dependencies') {
+        steps {
+            echo 'Checking frontend dependencies...'
+            dir('frontend') {
+                script {
+                    if (fileExists('node_modules')) {
+                        echo 'Frontend dependencies already installed. Skipping npm install.'
+                    } else {
+                        echo 'Installing frontend dependencies...'
+                        bat 'npm install'
+                    }
                 }
             }
         }
+    }
 
         stage('Test Backend') {
             steps {
