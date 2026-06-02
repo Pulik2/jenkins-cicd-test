@@ -46,22 +46,22 @@ stages {
 
                     file = file.trim()
 
-                    if (file.startsWith('backend/')) {
-                        env.BACKEND_CHANGED = 'true'
-                    }
-
-                    if (file.startsWith('frontend/')) {
+                    if (changedFiles.contains('frontend/')) {
                         env.FRONTEND_CHANGED = 'true'
                     }
 
-                    if (file == 'backend/package.json' ||
-                        file == 'backend/package-lock.json') {
-                        env.BACKEND_PACKAGE_CHANGED = 'true'
+                    if (changedFiles.contains('backend/')) {
+                        env.BACKEND_CHANGED = 'true'
                     }
 
-                    if (file == 'frontend/package.json' ||
-                        file == 'frontend/package-lock.json') {
+                    if (changedFiles.contains('frontend/package.json') ||
+                        changedFiles.contains('frontend/package-lock.json')) {
                         env.FRONTEND_PACKAGE_CHANGED = 'true'
+                    }
+
+                    if (changedFiles.contains('backend/package.json') ||
+                        changedFiles.contains('backend/package-lock.json')) {
+                        env.BACKEND_PACKAGE_CHANGED = 'true'
                     }
                 }
 
