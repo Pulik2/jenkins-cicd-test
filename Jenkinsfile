@@ -184,6 +184,5 @@ post {
         echo 'Pipeline finished.'
     }
 }
-```
 
 }
