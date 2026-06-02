@@ -24,7 +24,7 @@ function App() {
 
   return (
     <div style={{ fontFamily: 'Arial', maxWidth: '600px', margin: '40px auto', padding: '0 20px' }}>
-      <h1>Jenkins CI/CD Test App v4</h1>
+      <h1>Jenkins CI/CD Test App v5</h1>
       <p>Backend Status: <strong>{backendStatus}</strong></p>
 
       <h2>Users from PostgreSQL</h2>
