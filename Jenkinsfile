@@ -37,6 +37,12 @@ stages {
                 def files = changedFiles.split("\\r?\\n")
 
                 files.each { file ->
+                echo "FILE=[${file}]"
+                }
+
+                echo "RAW=[${changedFiles}]"
+
+                files.each { file ->
 
                     file = file.trim()
 
