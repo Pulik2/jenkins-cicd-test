@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
+const API = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 function App() {
   const [users, setUsers] = useState([]);
   const [backendStatus, setBackendStatus] = useState('');
   const [error, setError] = useState('');
-
-  const API = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
   useEffect(() => {
     fetch(`${API}`)
