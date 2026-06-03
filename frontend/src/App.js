@@ -5,15 +5,15 @@ function App() {
   const [backendStatus, setBackendStatus] = useState('');
   const [error, setError] = useState('');
 
+  const API = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   useEffect(() => {
-    // Test backend connection
-    fetch('http://localhost:5000')
+    fetch(`${API}`)
       .then(res => res.json())
       .then(data => setBackendStatus(data.message))
       .catch(() => setBackendStatus('Backend not reachable'));
 
-    // Fetch users
-    fetch('http://localhost:5000/api/users')
+    fetch(`${API}/api/users`)
       .then(res => res.json())
       .then(data => {
         if (data.error) setError(data.error);
@@ -26,7 +26,6 @@ function App() {
     <div style={{ fontFamily: 'Arial', maxWidth: '600px', margin: '40px auto', padding: '0 20px' }}>
       <h1>Jenkins CI/CD Test App v12</h1>
       <p>Backend Status: <strong>{backendStatus}</strong></p>
-
       <h2>Users from PostgreSQL</h2>
       {error && <p style={{ color: 'red' }}>DB Error: {error}</p>}
       {users.length === 0 && !error && <p>No users found in database.</p>}
