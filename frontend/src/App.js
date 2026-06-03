@@ -24,9 +24,9 @@ function App() {
 
   return (
     <div style={{ fontFamily: 'Arial', maxWidth: '600px', margin: '40px auto', padding: '0 20px' }}>
-      <h1>Jenkins CI/CD Test App v12</h1>
+      <h1>Jenkins CI/CD Test App v17</h1>
       <p>Backend Status: <strong>{backendStatus}</strong></p>
-      <h2>Users from PostgreSQL</h2>
+      <h2>Users from PostgreSQL Live</h2>
       {error && <p style={{ color: 'red' }}>DB Error: {error}</p>}
       {users.length === 0 && !error && <p>No users found in database.</p>}
       <ul>
