@@ -171,6 +171,7 @@ pipeline {
 
         stage('Production — Smoke Test') {
             steps {
+                echo "Smoke test skipped — no live server in demo mode."
                 // bat "curl -f http://localhost:${PROD_BACKEND_PORT}/ || exit 1"
             }
         }
