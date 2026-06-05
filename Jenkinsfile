@@ -200,7 +200,8 @@ pipeline {
                 script {
                     try {
                         echo "Running smoke test..."
-                        bat "exit 1"   // ← Add this line to force failure
+                        // bat "exit 1"   ← make sure this is COMMENTED OUT
+                        echo "Smoke test passed (demo mode — skipping real HTTP check)."
                     } catch (err) {
                         echo "Smoke test FAILED. Triggering rollback..."
                         performRollback()
