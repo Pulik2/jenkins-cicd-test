@@ -212,33 +212,24 @@ pipeline {
         }
 
         // ─── TAG LAST GOOD BUILD ─────────────────────────────────────
-        // Only runs if everything above succeeded
         stage('Tag Last Good Build') {
             steps {
                 script {
                     echo "Tagging commit ${env.CURRENT_COMMIT} as last-good-build..."
 
-                    // Delete local tag if exists
-                    bat '''
-                        git tag -d last-good-build
-                        exit 0
-                    '''
+                    // Delete local tag if exists, ignore error
+                    bat "git tag -d ${env.LAST_GOOD_TAG} 2>nul & exit 0"
 
-                    // Delete remote tag if exists  
-                    bat '''
-                        git push origin :refs/tags/last-good-build
-                        exit 0
-                    '''
+                    // Create tag locally
+                    bat "git tag -f ${env.LAST_GOOD_TAG} ${env.CURRENT_COMMIT}"
 
-                    // Create and push new tag
-                    bat "git tag ${env.LAST_GOOD_TAG} ${env.CURRENT_COMMIT}"
-                    bat "git push origin ${env.LAST_GOOD_TAG}"
+                    // Force push — overwrites remote tag without needing to delete it first
+                    bat "git push origin ${env.LAST_GOOD_TAG} --force"
 
                     echo "Successfully tagged ${env.CURRENT_COMMIT} as ${env.LAST_GOOD_TAG}"
                 }
             }
         }
-    }
 
     // ─── NOTIFICATIONS ───────────────────────────────────────────────
     post {
