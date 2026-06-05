@@ -200,7 +200,7 @@ pipeline {
                 script {
                     try {
                         echo "Running smoke test..."
-                        // bat "exit 1"   ← make sure this is COMMENTED OUT
+                        bat "exit 1"    // ← UNCOMMENT THIS
                         echo "Smoke test passed (demo mode — skipping real HTTP check)."
                     } catch (err) {
                         echo "Smoke test FAILED. Triggering rollback..."
@@ -217,14 +217,9 @@ pipeline {
                 script {
                     echo "Tagging commit ${env.CURRENT_COMMIT} as last-good-build..."
 
-                    // Delete local tag if exists, ignore error
+                    // Update tag locally only — avoids Windows git credential hang
                     bat "git tag -d ${env.LAST_GOOD_TAG} 2>nul & exit 0"
-
-                    // Create tag locally
                     bat "git tag -f ${env.LAST_GOOD_TAG} ${env.CURRENT_COMMIT}"
-
-                    // Force push — overwrites remote tag without needing to delete it first
-                    bat "git push origin ${env.LAST_GOOD_TAG} --force"
 
                     echo "Successfully tagged ${env.CURRENT_COMMIT} as ${env.LAST_GOOD_TAG}"
                 }
