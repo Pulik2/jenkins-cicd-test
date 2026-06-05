@@ -217,12 +217,24 @@ pipeline {
             steps {
                 script {
                     echo "Tagging commit ${env.CURRENT_COMMIT} as last-good-build..."
-                    // Delete old tag locally and remotely, then recreate
-                    bat "git tag -d ${LAST_GOOD_TAG} || echo 'No existing local tag to delete'"
-                    bat "git push origin :refs/tags/${LAST_GOOD_TAG} || echo 'No remote tag to delete'"
-                    bat "git tag ${LAST_GOOD_TAG} ${env.CURRENT_COMMIT}"
-                    bat "git push origin ${LAST_GOOD_TAG}"
-                    echo "Successfully tagged ${env.CURRENT_COMMIT} as ${LAST_GOOD_TAG}"
+
+                    // Delete local tag if exists
+                    bat '''
+                        git tag -d last-good-build
+                        exit 0
+                    '''
+
+                    // Delete remote tag if exists  
+                    bat '''
+                        git push origin :refs/tags/last-good-build
+                        exit 0
+                    '''
+
+                    // Create and push new tag
+                    bat "git tag ${env.LAST_GOOD_TAG} ${env.CURRENT_COMMIT}"
+                    bat "git push origin ${env.LAST_GOOD_TAG}"
+
+                    echo "Successfully tagged ${env.CURRENT_COMMIT} as ${env.LAST_GOOD_TAG}"
                 }
             }
         }
